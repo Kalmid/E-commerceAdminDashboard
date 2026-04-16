@@ -5,13 +5,8 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("API is running");
-});
-
-//Test DB connection
 sequelize.authenticate()
-  .then(() => console.log("Database connected successfully"))
+  .then(() => console.log("Database connected Successfully!"))
   .catch((err) => console.error("DB Error:", err));
 
 app.listen(3000, () => {
