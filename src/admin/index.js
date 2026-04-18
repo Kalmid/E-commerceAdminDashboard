@@ -16,6 +16,9 @@ AdminJS.registerAdapter(AdminJSSequelize);
 
 const admin = new AdminJS({
   rootPath: "/admin",
+  dashboard: {
+    component: AdminJS.bundle("../pages/Dashboard"),
+  },
   resources: [
     {
       resource: User,
