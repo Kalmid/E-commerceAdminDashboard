@@ -85,7 +85,7 @@ src/
 ### 1. Clone Repository
 
 ```bash
-git clone <your-github-repo-url>
+git clone https://github.com/Kalmid/E-commerceAdminDashboard.git
 cd adminjs-ecommerce
 ```
 
