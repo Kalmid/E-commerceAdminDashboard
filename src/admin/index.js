@@ -25,16 +25,48 @@ const admin = new AdminJS({
             isVisible: false,
           },
         },
+        isVisible: ({ currentAdmin }) =>
+        currentAdmin && currentAdmin.role === "admin",
       },
     },
     Category,
     Product,
     Order,
     OrderItem,
-    Setting,
+    {
+      resource: Setting,
+      options: {
+        isVisible: ({ currentAdmin }) =>
+          currentAdmin && currentAdmin.role === "admin",
+      },
+    },
   ],
 });
 
-const adminRouter = AdminJSExpress.buildRouter(admin);
+const bcrypt = require("bcrypt");
+
+const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
+  admin,
+  {
+    authenticate: async (email, password) => {
+      const user = await User.findOne({ where: { email } });
+
+      if (user) {
+        const matched = await bcrypt.compare(password, user.password);
+
+        if (matched) return user;
+      }
+
+      return null;
+    },
+    cookieName: "adminjs",
+    cookiePassword: "supersecretcookie",
+  },
+  null,
+  {
+    resave: false,
+    saveUninitialized: true,
+  }
+);
 
 module.exports = adminRouter;
